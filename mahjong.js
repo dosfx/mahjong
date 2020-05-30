@@ -10,7 +10,7 @@ const TILE_PADDING = 4;
 // random int to compare against
 const OFFSET = 12345567890;
 
-Vue.prototype.$board = [];
+Vue.prototype.$firstTile = null;
 var mahjong = new Vue({
     el: "#mahjong",
     data: {
@@ -47,10 +47,6 @@ var mahjong = new Vue({
                     left: ((t.x * (TILE_WIDTH + TILE_PADDING)) + TILE_PADDING) + "px",
                     top: ((t.y * (TILE_HEIGHT + TILE_PADDING)) + TILE_PADDING) + "px"
                 }
-                // fill in the board
-                this.$board[t.x] = this.$board[t.x] || []
-                this.$board[t.x][t.y] = this.$board[t.x][t.y] || []
-                this.$board[t.x][t.y][t.z] = t;
             });
 
             // change the tiles binding to redraw
@@ -58,7 +54,24 @@ var mahjong = new Vue({
         },
 
         select: function(tile) {
-            tile.selected = !tile.selected;
+            if (tile === this.$firstTile) {
+                this.$firstTile = null;
+                tile.selected = false;
+            } else if (this.tiles.filter(t => 
+                (t.x === tile.x - 1 && t.y === tile.y) ||
+                (t.x === tile.x + 1 && t.y === tile.y)).length !== 2) {
+                
+                if (this.$firstTile) {
+                    if (this.$firstTile.suit === tile.suit && this.$firstTile.num === tile.num) {
+                        this.tiles.splice(this.tiles.indexOf(tile), 1);
+                        this.tiles.splice(this.tiles.indexOf(this.$firstTile), 1);
+                        this.$firstTile = null;
+                    }
+                } else {
+                    this.$firstTile = tile;
+                    tile.selected = true;
+                }
+            }
         }
     }
 })
