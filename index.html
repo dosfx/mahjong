@@ -1,0 +1,12 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+        <link rel="stylesheet" type="text/css" href="mahjong.css">
+    </head>
+    <body style="background-color: green">
+        <div id="mahjong">
+            <div v-for="tile in tiles" class="tile" v-bind:class="{selected: tile.selected}" v-bind:style="tile.style" v-on:click="select(tile)"></div>
+        </div>
+        <script src="mahjong.js"></script>
+    </body>
+</html>

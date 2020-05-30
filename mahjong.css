@@ -1,0 +1,16 @@
+.tile {
+    background-origin: border-box;
+    background-image: url(tiles.png);
+    border-radius: 6px;
+    box-shadow: 0 4px 8px black;
+    box-sizing: border-box;
+    height: 70px;
+    width: 50px;
+    position: absolute;
+}
+
+.tile.selected {
+    border-color: red;
+    border-width: -2px;
+    border-style: solid;
+}
