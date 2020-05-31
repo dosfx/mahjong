@@ -12,37 +12,30 @@ const OFFSET = 12345567890;
 
 Vue.prototype.$firstTile = null;
 Vue.prototype.$layouts = {
-    classic: function() {
-        let layout = Array.prototype.concat(
+    classic: function () {
+        return Array.prototype.concat(
             // bottom layer, row by row
-            Array.from({length:12}, function (_v, i) { return [i + 1, 0, 0]; }),
-            Array.from({length:8}, function (_v, i) { return [i + 3, 1, 0]; }),
-            Array.from({length:10}, function (_v, i) { return [i + 2, 2, 0]; }),
+            Array.from({ length: 12 }, function (_v, i) { return [i + 1, 0, 0]; }),
+            Array.from({ length: 8 }, function (_v, i) { return [i + 3, 1, 0]; }),
+            Array.from({ length: 10 }, function (_v, i) { return [i + 2, 2, 0]; }),
             [[0, 3.5, 0]],
-            Array.from({length:12}, function (_v, i) { return [i + 1, 3, 0]; }),
-            Array.from({length:12}, function (_v, i) { return [i + 1, 4, 0]; }),
+            Array.from({ length: 12 }, function (_v, i) { return [i + 1, 3, 0]; }),
+            Array.from({ length: 12 }, function (_v, i) { return [i + 1, 4, 0]; }),
             [[13, 3.5, 0], [14, 3.5, 0]],
-            Array.from({length:10}, function (_v, i) { return [i + 2, 5, 0]; }),
-            Array.from({length:8}, function (_v, i) { return [i + 3, 6, 0]; }),
-            Array.from({length:12}, function (_v, i) { return [i + 1, 7, 0]; }),
+            Array.from({ length: 10 }, function (_v, i) { return [i + 2, 5, 0]; }),
+            Array.from({ length: 8 }, function (_v, i) { return [i + 3, 6, 0]; }),
+            Array.from({ length: 12 }, function (_v, i) { return [i + 1, 7, 0]; }),
             // second layer square
-            Array.from({length:36}, function (_v, i) { return [(i % 6) + 4, Math.floor(i / 6) + 1, 1]; }),
+            Array.from({ length: 36 }, function (_v, i) { return [(i % 6) + 4, Math.floor(i / 6) + 1, 1]; }),
             // third layer square
-            Array.from({length:16}, function (_v, i) { return [(i % 4) + 5, Math.floor(i / 4) + 2, 2]; }),
+            Array.from({ length: 16 }, function (_v, i) { return [(i % 4) + 5, Math.floor(i / 4) + 2, 2]; }),
             // forth layer square
-            Array.from({length:4}, function (_v, i) { return [(i % 2) + 6, Math.floor(i / 2) + 3, 3]; }),
+            Array.from({ length: 4 }, function (_v, i) { return [(i % 2) + 6, Math.floor(i / 2) + 3, 3]; }),
             [[6.5, 3.5, 4]]
         );
-
-        let count = 144 - layout.length;
-        for (let i = 0; i < count; i++) {
-            layout.push([0,10,i]);
-        }
-
-        return layout;
     },
-    flat: function() {
-        return Array.from({length:144}, function (_v, i) { return [i % 16, Math.floor(i / 16), 0]; });
+    flat: function () {
+        return Array.from({ length: 144 }, function (_v, i) { return [i % 16, Math.floor(i / 16), 0]; });
     }
 };
 
@@ -51,15 +44,15 @@ var mahjong = new Vue({
     data: {
         tiles: []
     },
-    mounted: function() {
+    mounted: function () {
         this.deal();
     },
     methods: {
-        deal: function() {
+        deal: function () {
             // make a list of shuffled tiles
             let shuffle = []
             for (let suit = 0; suit < 4; suit++) {
-                for (let num = 0; num < 9; num ++) {
+                for (let num = 0; num < 9; num++) {
                     for (let i = 0; i < 4; i++) {
                         let rand = Math.floor(Math.random() * shuffle.length)
                         shuffle.push(shuffle[rand]);
@@ -92,7 +85,7 @@ var mahjong = new Vue({
             this.tiles = shuffle;
         },
 
-        select: function(tile) {
+        select: function (tile) {
             if (tile === this.$firstTile) {
                 this.$firstTile = null;
                 tile.selected = false;
@@ -113,4 +106,4 @@ var mahjong = new Vue({
             }
         }
     }
-})
+});
