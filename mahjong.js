@@ -89,10 +89,7 @@ var mahjong = new Vue({
             if (tile === this.$firstTile) {
                 this.$firstTile = null;
                 tile.selected = false;
-            } else if (this.tiles.filter(t => 
-                (t.x === tile.x - 1 && t.y === tile.y) ||
-                (t.x === tile.x + 1 && t.y === tile.y)).length !== 2) {
-                
+            } else if (this.tileOpen(tile)) {
                 if (this.$firstTile) {
                     if (this.$firstTile.suit === tile.suit && this.$firstTile.num === tile.num) {
                         this.tiles.splice(this.tiles.indexOf(tile), 1);
@@ -104,6 +101,31 @@ var mahjong = new Vue({
                     tile.selected = true;
                 }
             }
+        },
+
+        tileOpen: function (tile) {
+            let above = 0;
+            let left = 0;
+            let right = 0;
+            this.tiles.forEach(function (t) {
+                // overlap in y
+                if (tile.y - 1 < t.y && t.y < tile.y + 1) {
+                    // in same z plane
+                    if (t.z === tile.z) {
+                        if (t.x === tile.x - 1) {
+                            left++;
+                        } else if (t.x === tile.x + 1) {
+                            right++;
+                        }
+                    } else if (t.z === tile.z + 1) { // above
+                        if (tile.x - 1 < t.x && t.x < tile.x + 1) {
+                            above++;
+                        }
+                    }
+                }
+            });
+
+            return above === 0 && (left === 0 || right === 0);
         }
     }
 });
