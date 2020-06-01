@@ -131,15 +131,20 @@ var mahjong = new Vue({
             }
 
             if (tile === this.$firstTile) {
+                // when they click back on the same time to cancel a move
                 this.$firstTile = null;
             } else if (this.tileOpen(tile)) {
+                // clicked on an open tile
                 if (this.$firstTile) {
+                    // 2nd half of a move check if the tile matches
                     if (this.$firstTile.suit === tile.suit && this.$firstTile.num === tile.num) {
+                        // make the move
                         this.tiles.splice(this.tiles.indexOf(tile), 1);
                         this.tiles.splice(this.tiles.indexOf(this.$firstTile), 1);
                         this.$firstTile = null;
                     }
                 } else {
+                    // first half of a move select the tile and save it
                     this.$firstTile = tile;
                     tile.selected = true;
                 }
@@ -147,6 +152,7 @@ var mahjong = new Vue({
         },
         
         showMoves: function() {
+            // loop though all the moves and highlight everything
             this.moves.forEach(function(moveList) {
                 moveList.forEach(function (tile) {
                     tile.selected = true;
@@ -158,6 +164,7 @@ var mahjong = new Vue({
             let above = 0;
             let left = 0;
             let right = 0;
+            // count the number of tiles above, left and right of this tile
             this.tiles.forEach(function (t) {
                 // overlap in y
                 if (tile.y - 1 < t.y && t.y < tile.y + 1) {
@@ -176,6 +183,7 @@ var mahjong = new Vue({
                 }
             });
 
+            // conditions for the tile being open
             return above === 0 && (left === 0 || right === 0);
         }
     }
