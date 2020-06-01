@@ -4,9 +4,21 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
         <link rel="stylesheet" type="text/css" href="mahjong.css">
     </head>
-    <body style="background-color: green">
+    <body>
         <div id="mahjong">
-            <div v-for="tile in tiles" class="tile" v-bind:class="{selected: tile.selected}" v-bind:style="tile.style" v-on:click="select(tile)"></div>
+            <div class="toolbar">
+                <button class="item" v-on:click="deal">Deal!</button>
+                <span class="item">
+                    <label >Layout:</label>
+                    <select v-model="selectedLayout">
+                        <option v-for="layout in layoutOptions">{{layout}}</option>
+                    </select>
+                </span>
+                <button class="item" v-on:click="showMoves">Show Moves({{moves.length}})</button>
+            </div>
+            <div class="board">
+                <div v-for="tile in tiles" class="tile" v-bind:class="{selected: tile.selected}" v-bind:style="tile.style" v-on:click="select(tile)"></div>
+            </div>
         </div>
         <script src="mahjong.js"></script>
     </body>

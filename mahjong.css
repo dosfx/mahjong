@@ -1,3 +1,18 @@
+.toolbar {
+    background-color: lightgrey;
+}
+
+.toolbar .item {
+    margin: 10px 20px;
+}
+
+.board {
+    background-color: green;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .tile {
     background-origin: border-box;
     background-image: url(tiles.png);

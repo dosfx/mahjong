@@ -12,7 +12,7 @@ const OFFSET = 12345567890;
 
 Vue.prototype.$firstTile = null;
 Vue.prototype.$layouts = {
-    classic: function () {
+    Classic: function () {
         return Array.prototype.concat(
             // bottom layer, row by row
             Array.from({ length: 12 }, function (_v, i) { return [i + 1, 0, 0]; }),
@@ -34,7 +34,7 @@ Vue.prototype.$layouts = {
             [[6.5, 3.5, 4]]
         );
     },
-    flat: function () {
+    Flat: function () {
         return Array.from({ length: 144 }, function (_v, i) { return [i % 16, Math.floor(i / 16), 0]; });
     }
 };
@@ -42,9 +42,43 @@ Vue.prototype.$layouts = {
 var mahjong = new Vue({
     el: "#mahjong",
     data: {
+        selectedLayout: null,
         tiles: []
     },
+    computed: {
+        layoutOptions: function() {
+            return Object.keys(this.$layouts);
+        },
+        moves: function() {
+            // new moves array
+            let moves = [];
+
+            // loop through the tiles
+            this.tiles.forEach(function (tile) {
+                // check if its open
+                if (this.tileOpen(tile)) {
+                    // look for if we've seen this tile before
+                    let match = moves.filter(function (moveList) {
+                        return moveList[0].suit === tile.suit && moveList[0].num === tile.num;
+                    });
+                    if (match.length === 0) {
+                        // new tile
+                        moves.push([tile]);
+                    } else {
+                        // got this one before add to the list
+                        match[0].push(tile);
+                    }
+                }
+            }, this);
+
+            // filter out the singles and return
+            return moves.filter(function (moveList) {
+                return moveList.length > 1;
+            });
+        }
+    },
     mounted: function () {
+        this.selectedLayout = this.layoutOptions[0];
         this.deal();
     },
     methods: {
@@ -65,7 +99,7 @@ var mahjong = new Vue({
             }
 
             // get the layout
-            let layout = this.$layouts.classic();
+            let layout = this.$layouts[this.selectedLayout]();
             // fill the board
             shuffle.forEach(function (t, i) {
                 t.x = layout[i][0];
@@ -86,9 +120,18 @@ var mahjong = new Vue({
         },
 
         select: function (tile) {
+            // clear selected of everything for every click in case moves were highlighted
+            this.tiles.forEach(function(t) {
+                t.selected = false;
+            });
+
+            // re-highlight the first half of a move
+            if (this.$firstTile) {
+                this.$firstTile.selected = true;
+            }
+
             if (tile === this.$firstTile) {
                 this.$firstTile = null;
-                tile.selected = false;
             } else if (this.tileOpen(tile)) {
                 if (this.$firstTile) {
                     if (this.$firstTile.suit === tile.suit && this.$firstTile.num === tile.num) {
@@ -101,6 +144,14 @@ var mahjong = new Vue({
                     tile.selected = true;
                 }
             }
+        },
+        
+        showMoves: function() {
+            this.moves.forEach(function(moveList) {
+                moveList.forEach(function (tile) {
+                    tile.selected = true;
+                });
+            });
         },
 
         tileOpen: function (tile) {
