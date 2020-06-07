@@ -147,7 +147,6 @@ var mahjong = new Vue({
                 } else {
                     // first half of a move select the tile and save it
                     this.$firstTile = tile;
-                    tile.selected = true;
                 }
             }
 
