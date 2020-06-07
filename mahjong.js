@@ -125,11 +125,6 @@ var mahjong = new Vue({
                 t.selected = false;
             });
 
-            // re-highlight the first half of a move
-            if (this.$firstTile) {
-                this.$firstTile.selected = true;
-            }
-
             if (tile === this.$firstTile) {
                 // when they click back on the same time to cancel a move
                 this.$firstTile = null;
@@ -148,6 +143,11 @@ var mahjong = new Vue({
                     this.$firstTile = tile;
                     tile.selected = true;
                 }
+            }
+
+            // re-highlight the first half of a move
+            if (this.$firstTile) {
+                this.$firstTile.selected = true;
             }
         },
 
