@@ -46,10 +46,10 @@ var mahjong = new Vue({
         tiles: []
     },
     computed: {
-        layoutOptions: function() {
+        layoutOptions: function () {
             return Object.keys(this.$layouts);
         },
-        moves: function() {
+        moves: function () {
             // new moves array
             let moves = [];
 
@@ -121,7 +121,7 @@ var mahjong = new Vue({
 
         select: function (tile) {
             // clear selected of everything for every click in case moves were highlighted
-            this.tiles.forEach(function(t) {
+            this.tiles.forEach(function (t) {
                 t.selected = false;
             });
 
@@ -150,10 +150,10 @@ var mahjong = new Vue({
                 }
             }
         },
-        
-        showMoves: function() {
+
+        showMoves: function () {
             // loop though all the moves and highlight everything
-            this.moves.forEach(function(moveList) {
+            this.moves.forEach(function (moveList) {
                 moveList.forEach(function (tile) {
                     tile.selected = true;
                 });
