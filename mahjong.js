@@ -75,6 +75,12 @@ var mahjong = new Vue({
             return moves.filter(function (moveList) {
                 return moveList.length > 1;
             });
+        },
+        win: function () {
+            return this.tiles.length === 0;
+        },
+        lose: function () {
+            return this.moves.length === 0 && !this.win;
         }
     },
     mounted: function () {

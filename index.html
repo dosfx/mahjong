@@ -21,6 +21,16 @@
         <div class="board">
             <div v-for="tile in tiles" class="tile" v-bind:class="{selected: tile.selected}" v-bind:style="tile.style"
                 v-on:click="select(tile)"></div>
+            <div class="cover" v-if="win || lose">
+                <div class="message">
+                    <h1 class="lose" v-if="lose">
+                        Game Over!
+                    </h1>
+                    <h1 class="win" v-if="win">
+                        Cleared!
+                    </h1>
+                </div>
+            </div>
         </div>
     </div>
     <script src="mahjong.js"></script>
