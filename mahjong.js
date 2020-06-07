@@ -10,7 +10,6 @@ const TILE_PADDING = 4;
 // random int to compare against
 const OFFSET = 12345567890;
 
-Vue.prototype.$firstTile = null;
 Vue.prototype.$layouts = {
     Classic: function () {
         return Array.prototype.concat(
@@ -42,6 +41,7 @@ Vue.prototype.$layouts = {
 var mahjong = new Vue({
     el: "#mahjong",
     data: {
+        firstTile: null,
         selectedLayout: null,
         tiles: []
     },
@@ -131,29 +131,29 @@ var mahjong = new Vue({
                 t.selected = false;
             });
 
-            if (tile === this.$firstTile) {
+            if (tile === this.firstTile) {
                 // when they click back on the same time to cancel a move
-                this.$firstTile = null;
+                this.firstTile = null;
             } else if (this.tileOpen(tile)) {
                 // clicked on an open tile
-                if (this.$firstTile) {
+                if (this.firstTile) {
                     // 2nd half of a move check if the tile matches
-                    if (this.$firstTile.suit === tile.suit && this.$firstTile.num === tile.num) {
+                    if (this.firstTile.suit === tile.suit && this.firstTile.num === tile.num) {
                         // make the move
                         this.tiles.splice(this.tiles.indexOf(tile), 1);
-                        this.tiles.splice(this.tiles.indexOf(this.$firstTile), 1);
-                        this.$firstTile = null;
+                        this.tiles.splice(this.tiles.indexOf(this.firstTile), 1);
+                        this.firstTile = null;
                     }
                 } else {
                     // first half of a move select the tile and save it
-                    this.$firstTile = tile;
+                    this.firstTile = tile;
                 }
             }
 
             // re-highlight the first half of a move
-            if (this.$firstTile) {
-                this.$firstTile.selected = true;
-            }
+            // if (this.firstTile) {
+            //     this.firstTile.selected = true;
+            // }
         },
 
         showMoves: function () {

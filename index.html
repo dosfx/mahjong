@@ -19,8 +19,8 @@
             <button class="item" v-on:click="showMoves">Show Moves({{moves.length}})</button>
         </div>
         <div class="board">
-            <div v-for="tile in tiles" class="tile" v-bind:class="{selected: tile.selected}" v-bind:style="tile.style"
-                v-on:click="select(tile)"></div>
+            <div v-for="tile in tiles" class="tile" v-bind:class="{selected: tile === firstTile || tile.selected}"
+                v-bind:style="tile.style" v-on:click="select(tile)"></div>
             <div class="cover" v-if="win || lose">
                 <div class="message">
                     <h1 class="lose" v-if="lose">
