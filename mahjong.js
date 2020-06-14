@@ -7,9 +7,6 @@ const TILE_HEIGHT = 70;
 const TILE_WIDTH = 50;
 const TILE_PADDING = 4;
 
-// random int to compare against
-const OFFSET = 12345567890;
-
 Vue.prototype.$layouts = {
     Classic: function () {
         return Array.prototype.concat(
@@ -194,11 +191,6 @@ var mahjong = new Vue({
                     this.firstTile = tile;
                 }
             }
-
-            // re-highlight the first half of a move
-            // if (this.firstTile) {
-            //     this.firstTile.selected = true;
-            // }
         },
 
         showMoves: function () {
